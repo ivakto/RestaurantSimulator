@@ -6,6 +6,7 @@ import worker.Client;
 import java.util.List;
 
 public class Statistics {
+
     public void printStatistics(Client client, List<Chef> chefList) {
         System.out.println("\nСТАТИСТИКА ЗА ДЕНЯ:");
         System.out.println("\nОбщо влезли клиенти: " + client.getTotalGuests());

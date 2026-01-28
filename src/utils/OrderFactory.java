@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 public class OrderFactory {
 
     private static final Random random = new Random();
+
     private static final List<String> MENU = Arrays.asList(
             "Класически Бургер", "Пица Маргарита", "Цезар Салата",
             "Сьомга със сос", "Телешки Стек", "Омар",
@@ -26,7 +27,7 @@ public class OrderFactory {
     public static BaseOrder generateRandomOrder(String platform) {
         String meal = MENU.get(random.nextInt(MENU.size()));
         if (platform.equals("Online")) {
-            return new DelayedOrder(meal, 3, TimeUnit.SECONDS);
+            return new DelayedOrder(meal, 2, TimeUnit.SECONDS);
         } else {
             int chance = random.nextInt(100);
             if (chance < 40) {
