@@ -12,9 +12,9 @@ public class RestaurantEngine {
     private final List<Chef> chefs;
 
     public RestaurantEngine(RestaurantKitchen kitchen, Client guestGenerator, List<Chef> chefs) {
-        this.kitchen = kitchen;
-        this.guestGenerator = guestGenerator;
-        this.chefs = chefs;
+        this.kitchen = Validator.validateNotNull(kitchen, "Kitchen service");
+        this.guestGenerator = Validator.validateNotNull(guestGenerator, "Guest generator");
+        this.chefs = Validator.validateNotNull(chefs, "Готвачите");
         this.executor = Executors.newFixedThreadPool(1 + chefs.size());
     }
 
