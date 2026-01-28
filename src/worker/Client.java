@@ -10,9 +10,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Client implements Runnable {
     private final KitchenService kitchen; // Зависим от абстракция
     private final AtomicInteger guestCounter = new AtomicInteger(0);
+    private volatile boolean running = true;
 
     public Client(KitchenService kitchen) {
         this.kitchen = Validator.validateNotNull(kitchen, "KitchenService (за клиента)");
+    }
+
+    public void stop() {
+        this.running = false;
     }
 
     @Override

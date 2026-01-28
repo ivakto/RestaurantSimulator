@@ -1,48 +1,28 @@
+import service.RestaurantKitchen;
+import service.RestaurantEngine;
 import worker.Chef;
 import worker.Client;
-import service.KitchenService;
-import service.RestaurantKitchen;
-
-import java.util.concurrent.*;
+import utils.Statistics;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
         System.out.println("РЕСТОРАНТЪТ ОТВАРЯ ВРАТИ!");
 
-        KitchenService kitchen = new RestaurantKitchen();
-
-        ExecutorService executor = Executors.newFixedThreadPool(4);
-
+        RestaurantKitchen kitchen = new RestaurantKitchen();
         Client guestGenerator = new Client(kitchen);
-        Chef chef1 = new Chef(kitchen, "Готвач Иван");
-        Chef chef2 = new Chef(kitchen, "Готвач Петър");
-        Chef chef3 = new Chef(kitchen, "Готвач Мария");
+        List<Chef> chefs = List.of(
+                new Chef(kitchen, "Готвач Иван"),
+                new Chef(kitchen, "Готвач Петър"),
+                new Chef(kitchen, "Готвач Мария")
+        );
 
-        executor.submit(guestGenerator);
-        executor.submit(chef1);
-        executor.submit(chef2);
-        executor.submit(chef3);
+        // 2. Инстанциране на помощните класове
+        RestaurantEngine engine = new RestaurantEngine(kitchen, guestGenerator, chefs);
+        Statistics printer = new Statistics();
 
-        try {
-            Thread.sleep(15000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println("\nВРЕМЕ Е ЗА ЗАТВАРЯНЕ! Спираме приемането на поръчки...");
-        executor.shutdownNow();
-        try {
-            if (executor.awaitTermination(2, TimeUnit.SECONDS)) {
-                System.out.println("\nСТАТИСТИКА ЗА ДЕНЯ:");
-                System.out.println("Общо влезли клиенти: " + guestGenerator.getTotalGuests());
-                System.out.println("Работа на готвачите:");
-                System.out.println(" - " + chef1.getName() + ": " + chef1.getCookedCount() + " ястия");
-                System.out.println(" - " + chef2.getName() + ": " + chef2.getCookedCount() + " ястия");
-                System.out.println(" - " + chef3.getName() + ": " + chef3.getCookedCount() + " ястия");
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        // 3. Изпълнение
+        engine.runSimulation(15000); // Симулация за 15 секунди
+        printer.printStatistics(guestGenerator, chefs);
     }
 }
-

@@ -11,6 +11,7 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public class OrderFactory {
+
     private static final Random random = new Random();
     private static final List<String> MENU = Arrays.asList(
             "Класически Бургер", "Пица Маргарита", "Цезар Салата",

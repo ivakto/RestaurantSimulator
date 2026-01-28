@@ -47,4 +47,11 @@ public class RestaurantKitchen implements KitchenService {
     // Тъй като моят дизайн включва няколко специализирани опашки (VIP, Delayed, Normal), готвачът (Consumer)
     // не трябва да зацикля на една от тях. poll() му позволява бързо да провери за приоритетни поръчки и, ако няма такива (null),
     // веднага да премине към следващата опашка. Това оптимизира производителността (throughput) на системата.
+
+    public boolean isQueueEmpty() {
+        // Методът проверява дали във ВСЯКА една от опашките е останало нещо
+        return vipOrderQueue.isEmpty() &&
+                delayOrderQueue.isEmpty() &&
+                normalOrderQueue.isEmpty();
+    }
 }
